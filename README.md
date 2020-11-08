@@ -32,14 +32,14 @@
 You will need [googletest](https://medium.com/@alexanderbussan/getting-started-with-google-test-on-os-x-a07eee7ae6dc) 
 to build and test it.
 
-To build project.
+To build project. (Choose bash or zsh)
 ````
     git clone <github link>
     cd mipt-flat-2020-practice1
-    ./build.sh
+    bash(or zsh) build.sh
 ````
 
-To run tests after building. You can write your own tests in main_test.cpp.
+To run tests after building. (You can write your own tests in main_test.cpp.)
 ````
     cd bin
     ./Test
