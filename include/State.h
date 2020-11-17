@@ -17,9 +17,9 @@ public:
   State& operator=(State&&) = default;
 
 
-  State operator^(int);
   State operator*(const State & other);
   State operator+(const State & other);
+  void IterateState();
 
   uint64_t &operator[](size_t ind);
 

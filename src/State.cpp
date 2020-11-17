@@ -25,9 +25,9 @@ State State::operator*(const State & other) {
   State result = other;
   result.min_word_length_ += min_word_length_;
   // just try to concat "other" with the word with the minimal possible length from "this"
-  for (uint64_t & i : result.min_word_length_with_suffix_) {
-    if (i != INF) {
-      i += min_word_length_;
+  for (uint64_t& length : result.min_word_length_with_suffix_) {
+    if (length != INF) {
+      length += min_word_length_;
     }
   }
 
@@ -35,10 +35,10 @@ State State::operator*(const State & other) {
     if (other.min_word_length_with_suffix_[i] == i) {
       for (size_t j = 1; i + j < min_word_length_with_suffix_.size() ; ++j) {
         // so we have suffix x^i and we try to concat with suffixes x^j
-        if (other.min_word_length_with_suffix_[i] != INF && min_word_length_with_suffix_[j] != INF) {
+        if (i != INF && min_word_length_with_suffix_[j] != INF) {
           result.min_word_length_with_suffix_[i + j] =
               std::min(result.min_word_length_with_suffix_[i + j],
-                       other.min_word_length_with_suffix_[i] + min_word_length_with_suffix_[j]);
+                       i + min_word_length_with_suffix_[j]);
         }
 
       }
@@ -48,19 +48,19 @@ State State::operator*(const State & other) {
 }
 
 
-State State::operator^(int) {
-  State result = *this;
-  result.min_word_length_ = 0;
+void State::IterateState() {
+//  State result = *this;
+  min_word_length_ = 0;
 
-  for (size_t i = 1; i < result.min_word_length_with_suffix_.size(); ++i) {
+  for (size_t i = 1; i < min_word_length_with_suffix_.size(); ++i) {
     // it means that we can iterate this suffix to get others which have length k * i
-    if (result.min_word_length_with_suffix_[i] == i) {
-      for (int j = i; j < result.min_word_length_with_suffix_.size(); j += i) {
-        result.min_word_length_with_suffix_[j] = j;
+    if (min_word_length_with_suffix_[i] == i) {
+      for (int j = i; j < min_word_length_with_suffix_.size(); j += i) {
+        min_word_length_with_suffix_[j] = j;
       }
     }
   }
-  return result;
+//  return result;
 }
 
 uint64_t& State::operator[](size_t ind) {

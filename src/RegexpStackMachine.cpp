@@ -31,34 +31,46 @@ uint8_t RegexpStackMachine::GetLetterLength(char symbol) {
   return (symbol == EPSILON) ? 0 : 1;
 }
 
+std::pair<State, State>
+RegexpStackMachine::GetTopTwoElements(std::stack<State>& st) const {
+  State rhs = st.top();
+  st.pop();
+  State lhs = st.top();
+  st.pop();
+  return {lhs, rhs};
+}
+State RegexpStackMachine::GetTopElement(std::stack<State> &st) const {
+  State result = st.top();
+  st.pop();
+  return result;
+}
+
 State
-RegexpStackMachine::GetOperationResult(std::stack<State>& st, char symbol) const {
+RegexpStackMachine::GetOperationResult(std::stack<State>& st, char operator_symbol) const {
   State result;
-  size_t operator_valence = GetOperatorValence(symbol);
+  size_t operator_valence = GetOperatorValence(operator_symbol);
   if (st.size() < operator_valence)  {
     throw IncorrectRegexpInput("ERROR. Invalid regexp");
   } else {
-    result = st.top(); st.pop();
-    
-    for (size_t i = 0; i < operator_valence - 1; ++i) {
-      State temp = st.top(); st.pop();
+    switch(operator_symbol) {
+    case '+': {
+      auto [lhs, rhs] = GetTopTwoElements(st);
+      result = lhs + rhs;
+      break;
+    }
+    case '.': {
+      auto [lhs, rhs] = GetTopTwoElements(st);
+      result = lhs * rhs;
+      break;
+    }
+    case '*': {
+      result = GetTopElement(st);
+      result.IterateState();
+    }
+    default:
+      break;
+    }
 
-      switch(symbol) {
-      case '+': {
-        result = temp + result;
-        break;
-      }
-      case '.': {
-        result = temp * result;
-        break;
-      }
-      default:
-        break;
-      }
-    }
-    if (symbol == '*') {
-      result = result ^(0);
-    }
   }
   return result;
 }
