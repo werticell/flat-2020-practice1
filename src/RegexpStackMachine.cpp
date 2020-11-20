@@ -1,10 +1,11 @@
 #include "../include/RegexpStackMachine.h"
 
-RegexpStackMachine::RegexpStackMachine(std::string_view regexp) {
-  std::copy_if(regexp.cbegin(), regexp.cend(),
-               std::back_inserter(regexp_),
-               [](char sym) {return sym != ' ';});
-}
+static const char ALPHABET [] = {'a', 'b', 'c', '1'};
+static const char OPERATORS [] = {'.', '*', '+'};
+static const char UNARY_OPERATORS [] = {'*'};
+static const char EPSILON = '1';
+
+RegexpStackMachine::RegexpStackMachine(std::string_view regexp) : regexp_(regexp) {}
 
 
 bool RegexpStackMachine::IsOperator(char symbol) {

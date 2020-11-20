@@ -6,11 +6,6 @@
 #include <utility>
 #include <iostream>
 #include <string_view>
-const char ALPHABET [] = {'a', 'b', 'c', '1'};
-const char OPERATORS [] = {'.', '*', '+'};
-const char UNARY_OPERATORS [] = {'*'};
-const char BINARY_OPERATORS [] = {'.', '+'};
-const char EPSILON = '1';
 
 enum : size_t {
   UNARY_VALENCE = 1,
@@ -18,7 +13,6 @@ enum : size_t {
 };
 
 const size_t INF = std::numeric_limits<size_t>::max();
-
 
 
 class IncorrectRegexpInput : public std::exception {

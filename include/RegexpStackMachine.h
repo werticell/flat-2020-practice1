@@ -13,7 +13,7 @@ private:
   State GetOperationResult(std::stack<State>& st, char operator_symbol) const;
 
   std::pair<State, State> GetTopTwoElements(std::stack<State>& st) const;
-  State GetTopElement(std::stack<State>& st) const;
+  [[nodiscard]] State GetTopElement(std::stack<State>& st) const;
 
 public:
   explicit RegexpStackMachine(std::string_view regexp);
