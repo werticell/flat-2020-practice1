@@ -18,12 +18,12 @@
  в массиве также для каждого `i` обновляем минимумом из значений `min_word_len_with_suffix_[i]` обоих операндов.
 4. Если это `.`, то в качестве `min_word_length_` для нового результирующего состояния мы берем сумму двух значений операндов.
 В массиве сначала обновляем значения для результата как значение `right.min_word_len_with_suffix_[i] + left.min_word_length_`, 
-потом для тех элементов, для которых `x[i] == i`, что значит что для правого состояния было слово минимальной длины, 
+потом для тех элементов, для которых `right.min_word_len_with_suffix_[i] == i`, что значит что для правого состояния было слово минимальной длины, 
 которое полностью состояло из нужных нам букв, такое слово можно попытаться продлить суффиксами левого слова, чтобы получить в 
 итоге более длинные суффиксы и меньшие значения в массиве результата для них (обновляем через минимум того, что там уже лежало, 
 и суммой `right.min_word_len_with_suffix_[i] + left.min_word_len_with_suffix_[j]`);
 5. Если это `*`, то `min_word_length_ = 0` для результирующего состояния, а массив не меняется, кроме случаев, 
-когда можно обновить через те значения, где `x[i] == i` и получить меньшие результаты для всех `j` кратных `i` меньших `k`.
+когда можно обновить через те значения, где `this->min_word_len_with_suffix_[i] == i` и получить меньшие результаты для всех `j` кратных `i` меньших `k`.
 
 **Асимптотика** O(|α| * k^2), так как операция над двумя состояниями происходит в худшем случае за O(k^2) и происходит не больше раз чем длина регулярного выражения.
 
@@ -32,14 +32,14 @@
 You will need [googletest](https://medium.com/@alexanderbussan/getting-started-with-google-test-on-os-x-a07eee7ae6dc) 
 to build and test it.
 
-To build project.
+To build project. (Choose bash or zsh)
 ````
     git clone <github link>
     cd mipt-flat-2020-practice1
-    ./build.sh
+    bash(or zsh) build.sh
 ````
 
-To run tests after building. You can write your own tests in main_test.cpp.
+To run tests after building. (You can write your own tests in main_test.cpp.)
 ````
     cd bin
     ./Test
